@@ -10,11 +10,11 @@ import * as path from "path"
 export async function run(): Promise<void> {
   try {
     const pattern = core.getInput('pattern');
-    const output_directory = core.getInput('output_directory') || `./${Buffer.from(new Date().toISOString()).toString('base64')}`;
+    const output_directory = core.getInput('output_directory') || `./${Math.random().toString(36).substring(7)}`;
 
-    core.debug(`Collecting files matching '${pattern}' into '${target}'`);
+    core.debug(`Collecting files matching '${pattern}' into '${output_directory}'`);
 
-    glob(pattern, {}, (err, files) => {
+    glob(pattern, {}, (err: any, files: string[]) => {
         if (err) throw err;
         files.forEach((file, index) => {
             const targetPath = path.resolve(output_directory, `${index}-${path.basename(file)}`);
